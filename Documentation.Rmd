@@ -1,0 +1,17 @@
+---
+title: "The Titanic disaster"
+author: "Christoph"
+date: "23 Dezember 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+
+## Including Plots
+
