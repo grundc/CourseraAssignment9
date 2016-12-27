@@ -1,0 +1,11 @@
+name: titanicdisast
+title: TitanicDisaster
+account: grundc
+server: shinyapps.io
+appId: 147641
+bundleId: 661624
+url: https://grundc.shinyapps.io/titanicdisast/
+when: 1482838962.41321
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: Documentation.Rmd|titanic_disaster-rpubs.html|titanic_disaster.md|titanic_disaster.Rpres|titanic_disaster-figure/unnamed-chunk-2-1.png

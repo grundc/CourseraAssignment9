@@ -34,6 +34,10 @@ shinyUI(fluidPage(
           tags$br(),
           tags$br(),
           tags$br(),
+          tags$br(),
+          tags$br(),
+          tags$br(),
+          tags$br(),
           tags$u(tags$h4("Make your prediction --->")),
           tags$br(),
           sliderInput("Age",
@@ -51,14 +55,22 @@ shinyUI(fluidPage(
     # Show a plot of the generated distribution
     mainPanel(
           tabsetPanel(type="tabs",
-                      tabPanel("Titanic stat",br(),
-                               textOutput("labHisto"),
+                      tabPanel("Titanic disaster",br(),
+                              
+                               tags$div(
+                                 tags$h3( textOutput("labHisto"))
+                               ),
                                plotOutput("titanic"),
                                
-                               textOutput("Survived"),
+                              
                                tags$div(
-                                     tags$h3(textOutput("Result"))
+                                 tags$h3(textOutput("Survived"))
                                ),
+                               tags$div(
+                                 tags$h4(textOutput("Selection"))
+                               ),
+                               
+                              
                                imageOutput("ResultImage")
                                
                               

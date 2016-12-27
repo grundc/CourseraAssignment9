@@ -9,9 +9,38 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## The data used
+
+This application uses the titanic dataset used by kaggle.com (https://github.com/agconti/kaggle-titanic) for a prediction competition during Dezember 2016. The dataset keeps around 850 passenger information, who traveled on the titanic, when it headed for disaster. 
 
 
+Based on this dataset a "random forest" prediction model was build to predict survival during the disaster.
 
-## Including Plots
 
+## Viewing data
+
+The first part of the application generates a histogram for one of the four features used for the prediction model. You can change the selection to view by gender, age, passenger class or the fare. The histogram will show you how surviving people were distributed.
+
+
+## Making your prediction
+
+The second half of the application provides the possibility to make your own prediction. Select your gender, your age, the travel class (1-3) and the fare to pay (depends on the class you selected).  
+Based on your selecton the a prediction will be made if you were likely to survive the disaster or not. An icon will be displayed as well.
+
+
+## Appendix
+
+### Example data
+
+
+```{r titanic}
+titanicdata <- read.csv(url("https://dl.dropboxusercontent.com/u/36380459/titanic_survival_data.csv"), stringsAsFactors=TRUE)
+head(titanicdata)
+```
+
+### Prediction Model
+
+```{r predition}
+load(url("https://dl.dropboxusercontent.com/u/36380459/titanicRFmodel.RData"))
+rf
+```

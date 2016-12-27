@@ -1,0 +1,56 @@
+The titanic disaster app
+========================================================
+author: Christoph 
+date: 27.12.2106
+autosize: true
+
+
+The idea
+========================================================
+
+- The idea came from kaggle.com
+- kaggle.com is a data science webpage, which offers fun competitions
+- For a couple of month they offered a competition with titanic passenger data
+- The challenge was to find a prediction model based on a training set that best
+   predicts survival during the titanic disaster
+- For a given test set you you had to predict the survival and enter the result into the competition
+
+How it works
+========================================================
+
+- The titanic disaster app shows first some histogram on different features of the original dataset and how survivors were distributed over passengers. 
+- The four features I used for the prediction model can be used to view the orginal data as histogram. 
+- In the second part of the application it is possible to enter age, gender, class and fare to predict, if a passenger was likely to survive. The result will be displayed by an icon, which should be self explaining.
+
+
+The data used
+========================================================
+
+
+```{r}
+titanicdata <- read.csv(url("https://dl.dropboxusercontent.com/u/36380459/titanic_survival_data.csv"), stringsAsFactors=TRUE)
+head(titanicdata[,c(2,3,5,6,9,10,11)])
+```
+
+Data is also available on github: https://github.com/agconti/kaggle-titanic
+
+The prediction model 1
+========================================================
+
+For the ease of use I decided to use the following features from the original data for the random forest prediction model.
+
+- AGE  
+- SEX  
+- PASSENGER CLASS  
+- FARE  
+
+I used cross validation to get the best possible result and achieved an accuracy of 0.83 !!!
+
+
+The prediction model 2
+========================================================
+
+```{r echo=FALSE}
+load(url("https://dl.dropboxusercontent.com/u/36380459/titanicRFmodel.RData"))
+rf
+```

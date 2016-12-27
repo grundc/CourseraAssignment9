@@ -10,15 +10,19 @@
 library(shiny)
 library(ggplot2)
 library(dplyr)
+library(caret)
+library(randomForest)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
 
       titanicdata <- read.csv(url("https://dl.dropboxusercontent.com/u/36380459/titanic_survival_data.csv"), stringsAsFactors=TRUE)
+      titanicdata$Survived <- as.factor(titanicdata$Survived)
+      titanicdata$Pclass <- as.factor(titanicdata$Pclass)
       # load randomForest model "rf"
       load(url("https://dl.dropboxusercontent.com/u/36380459/titanicRFmodel.RData"))
       
-      output$labHisto <- renderText({"My label"})
+      output$labHisto <- renderText({"Distribution of surviving passengers"})
       
       output$titanic <- renderPlot({
 
@@ -26,26 +30,26 @@ shinyServer(function(input, output) {
             if (input$HistoBy == "1")
             {
 
-                  g <- ggplot(data=titanicdata, aes(x=Age, fill=as.factor(Survived))) + geom_histogram(col="black", alpha=.5)
+                  g <- ggplot(data=titanicdata, aes(x=Age, fill=Survived)) + geom_histogram(col="black", alpha=.5)
                   g
                   # hist(titanicdata$Age,  col = 'darkgray', border = 'white')
             }
             else if (input$HistoBy == "2")
             {
 
-                  g <- ggplot(data=titanicdata, aes(x=Sex, fill=as.factor(Survived))) + geom_histogram(col="black", alpha=.5, stat = "count")
+                  g <- ggplot(data=titanicdata, aes(x=Sex, fill=Survived)) + geom_histogram(col="black", alpha=.5, stat = "count")
                   g
             }
             else if (input$HistoBy == "3")
             {
 
-                  g <- ggplot(data=titanicdata, aes(x=as.factor(Pclass), fill=as.factor(Survived))) + geom_histogram(col="black", alpha=.5, , stat = "count")
+                  g <- ggplot(data=titanicdata, aes(x=Pclass, fill=Survived)) + geom_histogram(col="black", alpha=.5, , stat = "count")
                   g
             }
             else if (input$HistoBy == "4")
             {
 
-                  g <- ggplot(data=titanicdata, aes(x=Fare, fill=as.factor(Survived))) + geom_histogram(col="black", alpha=.5)
+                  g <- ggplot(data=titanicdata, aes(x=Fare, fill=Survived)) + geom_histogram(col="black", alpha=.5)
                   g
             }
 
@@ -58,22 +62,19 @@ shinyServer(function(input, output) {
             varFare <- input$Fare
             varSex <- input$Sex
             
-            paste("Did you survive? Your selection: ", varAge, varClass, varFare, varSex)
+            "Your prediction:"
             })
       
-      output$Result <- renderText ({
-            
-            varAge <- input$Age
-            varClass <- as.numeric(input$Class)
-            varFare <- as.numeric(input$Fare)
-            varSex <- input$Sex
-            
-            newData <- data.frame(Age=varAge, Pclass=varClass, Fare=varFare, Sex = varSex)
-            result <- predict(rf, newData)
-            if (result == "1") {"Yes"}  else {"No "}
-            
-            
+      output$Selection <-  renderText({
+        varAge <- input$Age
+        varClass <- input$Class
+        varFare <- input$Fare
+        varSex <- input$Sex
+        
+        paste("Your selection: Age = ", varAge, " Passenger class = ", varClass, " Far = " , varFare, " Gender = ",varSex)
       })
+      
+
       
       output$ResultImage <- renderImage({
             varAge <- input$Age
@@ -84,25 +85,23 @@ shinyServer(function(input, output) {
             newData <- data.frame(Age=varAge, Pclass=varClass, Fare=varFare, Sex = varSex)
             result <- predict(rf, newData)
             if (result == "1") { 
-                  return(list(
+                  list(
                   src = "checked.png",
-                  contentType = "image/png",
-                  alt = "Checked"))
+                  contentType = "image/png"
+                 )
                   }  
             else { 
-                  return(list(
-                  src = "cancle.png",
-                  contentType = "image/png",
-                  alt = "Cancel"))
+                  list(
+                  src = "cancel.png",
+                  contentType = "image/png"
+                  
+                 )
                   }
        
-      })
+      }, deleteFile = FALSE)
       
       output$FareSlider <- renderUI({
             
-            valMin <- 1
-            valMx <- 1000
-            valMean <- 500
             
             inputClass <- input$Class
             
